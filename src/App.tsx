@@ -10,6 +10,7 @@ import classNames from "classnames";
 import ColorSelector from "./components/ColorSelector";
 import TipsModal from "./components/TipsModal";
 import Toolbar from "./components/Toolbar";
+import Tips from './components/Tips';
 // import AIReviewModal from "./components/AIReviewModal";
 
 // 중앙(코어) 그룹 데이터 순서 수정
@@ -245,67 +246,18 @@ export default function App() {
   };
 
   return (
-    <>
-      <head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <div className="print:p-0">
-        {/* 일반 화면에서만 보이는 Header와 Title */}
-        <div className={isCapturing ? "hidden" : "block"}>
-          <Header title="My Mandarat Plan" />
-          <MandaratTitle />
-        </div>
-        <div className="p-4 transform scale-100 2xl:scale-100 xl:scale-90 lg:scale-85 md:scale-75 sm:scale-60 print:scale-100 print:transform-none">
-          <div className="flex items-center justify-between p-0.5 w-full max-w-[900px] mx-auto print:hidden">
-            <ColorSelector
-              highlightColor={highlightColor}
-              setHighlightColor={setHighlightColor}
-            />
-            <Toolbar
-              setShowTips={setShowTips}
-              handleClearAll={handleClearAll}
-              handleSavePDF={handleSavePDF}
-            />
-          </div>
-          {/* PDF 저장 시 Title이 포함되도록 gridRef 위치 변경 */}
-          <div ref={gridRef}>
-            {/* PDF 저장 시에만 보이는 Title */}
-            <div className={isCapturing ? "block mb-4" : "hidden"}>
-              <MandaratTitle />
-            </div>
-            <MandaratGrid
-              gridData={gridData}
-              completedCells={completedCells}
-              onCellClick={handleCellClick}
-              highlightColor={highlightColor}
-              selectedIndex={selectedIndex}
-              isCapturing={isCapturing}
-            />
-          </div>
-          {selectedIndex !== null && (
-            <MandaratForm
-              currentData={gridData[selectedIndex]}
-              isCompleted={completedCells[selectedIndex]}
-              onSave={(newData) => handleSave(selectedIndex, newData)}
-              onComplete={() => handleComplete(selectedIndex)}
-              onCancel={handleCancel}
-              onReset={() => handleReset(selectedIndex)}
-              position={dialogPosition}
-              cellIndex={selectedIndex}
-            />
-          )}
-        </div>
-      </div>
-      <TipsModal
-        showTips={showTips}
-        setShowTips={setShowTips}
-        TipString1={TipString1}
-        TipString2={TipString2}
-      />
-      <Footer className="print:hidden" /> {/* 프린트 시 숨김 */}
-    </>
+    <div className="container mx-auto p-4">
+      <header className="mb-8">
+        <h1 className="text-2xl font-bold text-center">만다라트 계획표</h1>
+      </header>
+
+      <Toolbar setShowTips={setShowTips} />
+      
+      <main className="mt-4">
+        <MandaratGrid />
+      </main>
+
+      {showTips && <Tips onClose={() => setShowTips(false)} />}
+    </div>
   );
 }

@@ -1,6 +1,8 @@
 /** @type {import('tailwindcss').Config} */
-export default {
-  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+module.exports = {
+  content: [
+    "./src/**/*.{js,jsx,ts,tsx}",
+  ],
   theme: {
     extend: {
       fontFamily: {
@@ -33,6 +35,9 @@ export default {
       },
       screens: {
         'print': {'raw': 'print'},
+      },
+      gridTemplateColumns: {
+        '9': 'repeat(9, minmax(0, 1fr))',
       },
     },
   },

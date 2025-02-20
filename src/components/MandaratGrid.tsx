@@ -1,6 +1,7 @@
 import React from "react";
 import MandaratCell from "./MandaratCell";
 import classNames from "classnames";
+import { useMandarat } from '../hooks/useMandarat';
 
 type MandaratGridProps = {
   gridData: string[];
@@ -11,53 +12,30 @@ type MandaratGridProps = {
   isCapturing: boolean;
 };
 
-export default function MandaratGrid({
-  gridData,
-  completedCells,
-  onCellClick,
-  highlightColor,
-  selectedIndex,
-  isCapturing,
-}: MandaratGridProps) {
-  const groupedCells = Array.from({ length: 9 }, (_, groupIndex) =>
-    gridData.slice(groupIndex * 9, groupIndex * 9 + 9),
-  );
+const MandaratGrid = () => {
+  const { board, updateCell } = useMandarat(Array(81).fill(''));
 
   return (
-    <div className="grid grid-cols-3 gap-1 bg-gray-200 p-1 w-full max-w-[900px] mx-auto">
-      {groupedCells.map((group, groupIndex) => (
-        <div
-          key={groupIndex}
-          className="grid grid-cols-3 gap-0.5 bg-gray-200 border border-gray-300 rounded-sm"
+    <div className="grid grid-cols-9 gap-1">
+      {board.map((cell, index) => (
+        <div 
+          key={index}
+          className="w-full h-full bg-white"
+          style={{
+            fontFamily: "'Noto Sans KR', sans-serif",
+            textRendering: 'geometricPrecision'
+          }}
         >
-          {group.map((data, cellIndex) => {
-            const realIndex = groupIndex * 9 + cellIndex;
-            return (
-              <div
-                key={realIndex}
-                className="w-full h-full bg-white"
-                style={{
-                  fontFamily: "'Noto Sans KR', sans-serif",
-                  textRendering: "geometricPrecision",
-                }}
-              >
-                <div className="cell-content">
-                  <MandaratCell
-                    index={realIndex}
-                    data={data}
-                    isCompleted={completedCells[realIndex]}
-                    onClick={(event) => onCellClick(realIndex, event)}
-                    highlightColor={highlightColor}
-                    isInCentralGroup={groupIndex === 4}
-                    isActive={selectedIndex === realIndex}
-                    isCapturing={isCapturing}
-                  />
-                </div>
-              </div>
-            );
-          })}
+          <input
+            type="text"
+            value={cell}
+            onChange={(e) => updateCell(index, e.target.value)}
+            className="cell-content w-full h-full p-2 text-center focus:outline-none"
+          />
         </div>
       ))}
     </div>
   );
-}
+};
+
+export default MandaratGrid;
