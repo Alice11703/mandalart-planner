@@ -1,0 +1,99 @@
+/*250102*/
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url("./custom.css");
+
+/* ------------------------
+    DEFAULT SETTINGS 
+------------------------ */
+/* 테마 색상 설정 */
+:root {
+  --primary-color: #4caf50;
+  --secondary-color: #f44336;
+  --txtHover: #b5d0f4;
+}
+
+.mandarat-form button {
+  background-color: var(--primary-color);
+}
+
+.mandarat-form button.cancel {
+  background-color: var(--secondary-color);
+}
+
+body {
+  margin: 0;
+  background: #f1efed;
+  color: var(--text-color);
+  font-family:
+    "Noto Sans",
+    "Noto Sans KR",
+    "Roboto",
+    -apple-system,
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+html {
+  scroll-behavior: smooth;
+}
+a {
+  color: inherit;
+}
+ul,
+ul li {
+  list-style: none;
+}
+textarea {
+  resize: none;
+}
+.unselectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+::selection {
+  /* color: #e2e2e2; */
+  color: #fff;
+  background: var(--txtHover);
+}
+.ico__point {
+  display: inline-block;
+  animation: bounce 1.2s infinite ease-in-out;
+}
+.ico__point::before {
+  color: var(--text-em);
+  font-family: "Font Awesome 5 Free";
+  font-size: 4rem;
+  font-weight: 900;
+  vertical-align: middle;
+  content: "\f0a7";
+}
+
+/* ------------------------
+    COMMON 
+------------------------ */
+.container {
+  overflow: hidden;
+  margin: 0 auto;
+  width: calc(100% - 30vw);
+  text-align: center;
+  /* background: url(../images/bg_img.png) repeat center center; */
+}
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  background: var(--text-color);
+  color: var(--bg-color);
+}
+.section__color select {
+  border-bottom: 1px solid #ccc;
+}

@@ -1,0 +1,127 @@
+/* ------------------------
+  Mandarat-Styles
+------------------------ */
+
+/* 전체 그리드 스타일 */
+.mandarat-grid {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr); /* 9개의 열 */
+  grid-template-rows: repeat(9, 1fr); /* 9개의 행 */
+  gap: 10px; /* 각 칸 사이에 간격 */
+  width: 90vw;
+  height: 90vh;
+  margin: auto;
+  max-width: 800px;
+  max-height: 800px;
+  border: 2px solid #ddd; /* 그리드 외곽선 */
+  border-radius: 10px;
+}
+
+/* 각 칸 스타일 */
+.mandarat-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition:
+    background-color 0.3s,
+    transform 0.2s;
+}
+
+/* 칸을 클릭할 때의 효과 */
+.mandarat-cell:hover {
+  background-color: #e0e0e0;
+  transform: scale(1.05);
+}
+
+/* 선택된 칸 스타일 */
+.mandarat-cell.selected {
+  background-color: #a5d6a7;
+  transform: scale(1.1);
+}
+
+/* 폼을 띄울 때의 스타일 */
+.mandarat-form {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  max-width: 400px;
+  width: 100%;
+}
+
+/* 입력 폼의 텍스트박스 스타일 */
+.mandarat-form textarea {
+  width: 100%;
+  height: 150px;
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  resize: none;
+}
+
+/* 버튼 스타일 */
+.mandarat-form button {
+  padding: 8px 15px;
+  margin-right: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.mandarat-form button:hover {
+  background-color: #45a049;
+}
+
+.mandarat-form button.cancel {
+  background-color: #f44336;
+}
+
+.mandarat-form button.cancel:hover {
+  background-color: #d32f2f;
+}
+
+/* 화면 크기에 맞는 레이아웃 조정 */
+@media (max-width: 768px) {
+  .mandarat-grid {
+    grid-template-columns: repeat(5, 1fr); /* 모바일 화면에서는 5개 열 */
+    grid-template-rows: repeat(5, 1fr);
+  }
+}
+
+/* ------------------------
+      CUSTOM STYLES 
+  ------------------------ */
+/* .grid .cell__style:nth-child(5),
+  .grid:nth-child(5) .cell__style {
+      background: #86efac;
+  }
+  .grid:nth-child(5) .cell__style:nth-child(5) {
+      background: #fff;
+  } */
+.cell__style {
+  display: inline-grid;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  justify-items: center;
+  /**/
+  width: max(4rem, 100%);
+  height: max(4rem, 100%);
+  background: #f9f9f9;
+  font-size: 1rem;
+}

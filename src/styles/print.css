@@ -1,0 +1,29 @@
+@media print {
+  /* 프린트/PDF 전용 스타일 */
+  @page {
+    margin: 2cm;
+  }
+
+  body {
+    font-family: "Noto Sans KR", sans-serif;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* 그리드 셀 스타일 수정 */
+  .grid-cell {
+    page-break-inside: avoid;
+    font-size: 12pt;
+    line-height: 1.5;
+    min-height: 2em;
+    padding: 0.5em;
+    border: 1px solid #000;
+  }
+
+  /* 텍스트가 잘리지 않도록 보장 */
+  .cell-content {
+    overflow: visible;
+    white-space: normal;
+    word-break: keep-all;
+  }
+}
