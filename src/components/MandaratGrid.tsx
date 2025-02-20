@@ -1,29 +1,22 @@
 import React from "react";
-import MandaratCell from "./MandaratCell";
-import classNames from "classnames";
-import { useMandarat } from '../hooks/useMandarat';
+import { useMandarat } from "../hooks/useMandarat";
 
 type MandaratGridProps = {
   gridData: string[];
-  completedCells: boolean[];
-  onCellClick: (index: number, event: React.MouseEvent) => void;
-  highlightColor: string;
-  selectedIndex: number | null;
-  isCapturing: boolean;
 };
 
-const MandaratGrid = () => {
-  const { board, updateCell } = useMandarat(Array(81).fill(''));
+const MandaratGrid: React.FC<MandaratGridProps> = ({ gridData }) => {
+  const { board, updateCell } = useMandarat(gridData);
 
   return (
     <div className="grid grid-cols-9 gap-1">
       {board.map((cell, index) => (
-        <div 
+        <div
           key={index}
           className="w-full h-full bg-white"
           style={{
             fontFamily: "'Noto Sans KR', sans-serif",
-            textRendering: 'geometricPrecision'
+            textRendering: "geometricPrecision",
           }}
         >
           <input

@@ -1,17 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
-import html2canvas from "html2canvas";
-import html2pdf from "html2pdf.js";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
+import React, { useState } from "react";
 import MandaratGrid from "./components/MandaratGrid";
-import MandaratForm from "./components/MandaratForm";
-import MandaratTitle from "./components/MandaratTitle";
-import classNames from "classnames";
-import ColorSelector from "./components/ColorSelector";
-import TipsModal from "./components/TipsModal";
 import Toolbar from "./components/Toolbar";
-import Tips from './components/Tips';
-// import AIReviewModal from "./components/AIReviewModal";
+import Tips from "./components/Tips";
 
 // 중앙(코어) 그룹 데이터 순서 수정
 const centralGroup = [
@@ -43,207 +33,19 @@ const createDetailGroup = (coreNumber: number): string[] => {
 
 // 전체 그리드 데이터 생성 (9x9 = 81개 셀)
 const DEFAULT_GRID_DATA = [
-  ...createDetailGroup(1), // 좌상단 (핵심목표1)
-  ...createDetailGroup(2), // 중앙 상단 (핵심목표2)
-  ...createDetailGroup(3), // 우상단 (핵심목표3)
-  ...createDetailGroup(4), // 좌측 (핵심목표4)
-  ...centralGroup, // 중앙(코어)
-  ...createDetailGroup(5), // 우측 (핵심목표5)
-  ...createDetailGroup(6), // 좌하단 (핵심목표6)
-  ...createDetailGroup(7), // 중앙 하단 (핵심목표7)
-  ...createDetailGroup(8), // 우하단 (핵심목표8)
+  ...createDetailGroup(1),
+  ...createDetailGroup(2),
+  ...createDetailGroup(3),
+  ...createDetailGroup(4),
+  ...centralGroup,
+  ...createDetailGroup(5),
+  ...createDetailGroup(6),
+  ...createDetailGroup(7),
+  ...createDetailGroup(8),
 ];
 
 export default function App() {
-  const TipString1 = `"운동하기"`;
-  const TipString2 = `"매주 5km 조깅하기"`;
-
-  // gridData 초기화 부분 수정
-  const [gridData, setGridData] = useState<string[]>(() => {
-    const savedData = localStorage.getItem("mandaratGridData");
-    return savedData ? JSON.parse(savedData) : DEFAULT_GRID_DATA;
-  });
-
-  // 전체 비우기 함수 수정
-  const handleClearAll = () => {
-    if (window.confirm("모든 셀의 데이터가 삭제됩니다. 계속하시겠습니까?")) {
-      // 상태 초기화
-      const emptyGrid = Array(81).fill("");
-      setGridData(emptyGrid);
-      setCompletedCells(Array(81).fill(false));
-
-      // localStorage 전체 캐시 삭제
-      localStorage.removeItem("mandaratGridData");
-      localStorage.removeItem("mandaratCompleted");
-      localStorage.removeItem("mandaratHighlightColor");
-      localStorage.removeItem("mandaratCompletedCells");
-
-      // 기본 하이라이트 색상을 보라색으로 초기화
-      setHighlightColor("bg-purple-300");
-    }
-  };
-
-  const [completedCells, setCompletedCells] = useState<boolean[]>(() => {
-    const savedCompleted = localStorage.getItem("mandaratCompleted");
-    return savedCompleted ? JSON.parse(savedCompleted) : Array(81).fill(false);
-  });
-
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-  const [formPosition, setFormPosition] = useState({ x: 0, y: 0 });
-  const [dialogPosition, setDialogPosition] = useState({ x: 0, y: 0 });
-
-  const [highlightColor, setHighlightColor] = useState<string>(() => {
-    const savedColor = localStorage.getItem("mandaratHighlightColor");
-    return savedColor || "bg-purple-300";
-  });
-
   const [showTips, setShowTips] = useState(false);
-  const [isCapturing, setIsCapturing] = useState(false);
-
-  useEffect(() => {
-    localStorage.setItem("mandaratGridData", JSON.stringify(gridData));
-  }, [gridData]);
-
-  useEffect(() => {
-    localStorage.setItem("mandaratCompleted", JSON.stringify(completedCells));
-  }, [completedCells]);
-
-  useEffect(() => {
-    localStorage.setItem("mandaratHighlightColor", highlightColor);
-  }, [highlightColor]);
-
-  useEffect(() => {
-    const handleResize = () => {
-      // 리사이징 로직
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  const handleCellClick = (index: number, event: React.MouseEvent) => {
-    const cellElement = event.currentTarget as HTMLElement;
-    const rect = cellElement.getBoundingClientRect();
-
-    // 클릭한 셀의 오른쪽 상단에 Form이 나타나도록 위치 조정
-    setDialogPosition({
-      x: rect.right + 10, // 셀의 오른쪽에서 10px 떨어진 위치
-      y: rect.top, // 셀의 상단과 같은 높이
-    });
-
-    setSelectedIndex(index);
-  };
-
-  const handleSave = (index: number, newData: string) => {
-    try {
-      if (selectedIndex !== null) {
-        const newGridData = [...gridData];
-        newGridData[index] = newData;
-
-        // 동기화 로직 제거하고 단순 저장으로 롤백
-        setGridData(newGridData);
-        setSelectedIndex(null);
-      }
-    } catch (error) {
-      console.error("데이터 저장 중 오류 발생:", error);
-      alert("데이터 저장에 실패했습니다.");
-    }
-  };
-
-  const handleComplete = (index: number) => {
-    if (selectedIndex !== null) {
-      const newCompletedCells = [...completedCells];
-      newCompletedCells[index] = !newCompletedCells[index];
-      setCompletedCells(newCompletedCells);
-    }
-  };
-
-  const handleCancel = () => {
-    setSelectedIndex(null);
-  };
-
-  const handleReset = (index: number) => {
-    if (selectedIndex !== null) {
-      const newGridData = [...gridData];
-      const newCompletedCells = [...completedCells];
-
-      newGridData[index] = "";
-      newCompletedCells[index] = false;
-
-      setGridData(newGridData);
-      setCompletedCells(newCompletedCells);
-      setSelectedIndex(null);
-
-      localStorage.setItem("mandaratGridData", JSON.stringify(newGridData));
-      localStorage.setItem(
-        "mandaratCompleted",
-        JSON.stringify(newCompletedCells),
-      );
-    }
-  };
-
-  const colorMap: { [key: string]: string } = {
-    "bg-yellow-300": "#fde047",
-    "bg-blue-300": "#93c5fd",
-    "bg-red-300": "#fca5a5",
-    "bg-purple-300": "#d8b4fe",
-    "bg-green-300": "#86efac",
-    "bg-teal-300": "#5eead4",
-    "bg-pink-300": "#f9a8d4",
-    "bg-indigo-300": "#a5b4fc",
-  };
-
-  const gridRef = useRef<HTMLDivElement>(null);
-
-  const handleSavePDF = () => {
-    setIsCapturing(true);
-
-    const element = gridRef.current;
-    if (!element) return;
-
-    const opt = {
-      margin: 5,
-      filename: "mandarat-plan.pdf",
-      image: { type: "jpeg", quality: 0.98 },
-      html2canvas: {
-        scale: 2,
-        useCORS: true,
-        logging: false,
-        windowWidth: 900,
-        windowHeight: 1200,
-      },
-      jsPDF: {
-        unit: "mm",
-        format: "a4",
-        orientation: "portrait",
-      },
-    };
-
-    html2pdf()
-      .set(opt)
-      .from(element)
-      .save()
-      .then(() => {
-        setIsCapturing(false);
-        setTimeout(() => {
-          window.location.reload();
-        }, 100);
-      });
-  };
-
-  // 그리드 초기화 함수도 수정
-  const resetGridData = () => {
-    if (window.confirm("모든 데이터가 초기화됩니다. 계속하시겠습니까?")) {
-      setGridData(DEFAULT_GRID_DATA);
-      setCompletedCells(Array(81).fill(false));
-      localStorage.removeItem("mandaratCompletedCells");
-      // localStorage에 새로운 gridData도 저장
-      localStorage.setItem(
-        "mandaratGridData",
-        JSON.stringify(DEFAULT_GRID_DATA),
-      );
-    }
-  };
 
   return (
     <div className="container mx-auto p-4">
@@ -252,9 +54,9 @@ export default function App() {
       </header>
 
       <Toolbar setShowTips={setShowTips} />
-      
+
       <main className="mt-4">
-        <MandaratGrid />
+        <MandaratGrid gridData={DEFAULT_GRID_DATA} />
       </main>
 
       {showTips && <Tips onClose={() => setShowTips(false)} />}

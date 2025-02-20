@@ -1,0 +1,3 @@
+[build]
+  command = "CI=false GENERATE_SOURCEMAP=false npm run build"
+  publish = "build"

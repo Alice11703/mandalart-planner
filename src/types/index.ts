@@ -5,4 +5,4 @@ export interface MandaratBoard {
 export interface Position {
   x: number;
   y: number;
-} 
+}

@@ -10,7 +10,9 @@ const Tips = ({ onClose }: TipsProps) => {
         <ul className="list-disc pl-5 space-y-2">
           <li>중앙에 핵심 목표를 작성하세요.</li>
           <li>핵심 목표를 달성하기 위한 8개의 주요 목표를 작성하세요.</li>
-          <li>각 주요 목표를 달성하기 위한 8개의 세부 실천 항목을 작성하세요.</li>
+          <li>
+            각 주요 목표를 달성하기 위한 8개의 세부 실천 항목을 작성하세요.
+          </li>
         </ul>
         <button
           onClick={onClose}
@@ -23,4 +25,4 @@ const Tips = ({ onClose }: TipsProps) => {
   );
 };
 
-export default Tips; 
+export default Tips;

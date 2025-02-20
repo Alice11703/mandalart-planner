@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 export const useMandarat = (initialBoard: string[]) => {
   const [board, setBoard] = useState<string[]>(initialBoard);
@@ -13,4 +13,4 @@ export const useMandarat = (initialBoard: string[]) => {
     board,
     updateCell,
   };
-}; 
+};
