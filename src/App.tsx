@@ -89,13 +89,14 @@ export default function App() {
 
   const handleClearAll = () => {
     if (window.confirm("모든 셀의 데이터가 삭제됩니다. 계속하시겠습니까?")) {
-      setGridData(DEFAULT_GRID_DATA);
-      setCompletedCells(Array(81).fill(false));
-      setHighlightColor("bg-purple-300"); // 기본 색상으로 초기화
+      // 기본값으로 초기화
+      setGridData(Array(81).fill("")); // 모든 셀을 빈 문자열로 초기화
+      setCompletedCells(Array(81).fill(false)); // 완료 상태 초기화
+      // highlightColor는 유지
       // localStorage 데이터도 초기화
       localStorage.removeItem("mandaratData");
       localStorage.removeItem("mandaratCompleted");
-      localStorage.removeItem("mandaratHighlightColor");
+      // highlightColor는 localStorage에서 제거하지 않음
     }
   };
 
