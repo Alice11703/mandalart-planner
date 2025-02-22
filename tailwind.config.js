@@ -37,6 +37,9 @@ module.exports = {
       gridTemplateColumns: {
         9: "repeat(9, minmax(0, 1fr))",
       },
+      fontSize: {
+        '2xs': '0.625rem', // 10px
+      },
     },
   },
   safelist: [

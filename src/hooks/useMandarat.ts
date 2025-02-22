@@ -1,12 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export const useMandarat = (initialBoard: string[]) => {
+  // localStorage 사용 제거
   const [board, setBoard] = useState<string[]>(initialBoard);
 
   const updateCell = (index: number, value: string) => {
-    const newBoard = [...board];
-    newBoard[index] = value;
-    setBoard(newBoard);
+    setBoard((prevBoard) => {
+      const newBoard = [...prevBoard];
+      newBoard[index] = value;
+      return newBoard;
+    });
   };
 
   return {
