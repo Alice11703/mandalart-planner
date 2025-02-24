@@ -103,7 +103,7 @@ const MandaratCell: React.FC<MandaratCellProps> = ({
         "border-0",
         "transition-all",
         !isCapturing && "cursor-pointer hover:bg-blue-50",
-        isCapturing ? "p-1" : "p-1.5",
+        isCapturing ? "p-1" : window.innerWidth <= 640 ? "" : "p-1.5",
         getBgColor(),
         className,
         {
@@ -112,14 +112,14 @@ const MandaratCell: React.FC<MandaratCellProps> = ({
       )}
       onClick={onClick}
       style={{
-        transform: window.innerWidth <= 640 ? "scale(0.9)" : "scale(1)",
+        transform: window.innerWidth <= 640 ? "scale(0.5)" : "scale(1)",
       }}
     >
       <div
         className={classNames(
           "w-full h-full min-h-full",
           "flex flex-col items-center justify-center",
-          isCapturing ? "px-1" : "px-1.5",
+          isCapturing ? "px-1" : window.innerWidth <= 640 ? "" : "px-1.5",
         )}
       >
         <span
