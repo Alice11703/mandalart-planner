@@ -64,9 +64,9 @@ const MandaratCell: React.FC<MandaratCellProps> = ({
   className,
 }) => {
   const getBgColor = () => {
-    if (isActive) return "bg-blue-100";
-    if (isInCentralGroup || isCenterCell) return highlightColor;
-    return "bg-white";
+    if (isActive) return "";
+    if (isInCentralGroup || isCenterCell) return "";
+    return "";
   };
 
   const getTextSizeClass = () => {
@@ -102,7 +102,7 @@ const MandaratCell: React.FC<MandaratCellProps> = ({
         "flex items-center justify-center content-center",
         "border-0",
         "transition-all",
-        !isCapturing && "cursor-pointer hover:bg-blue-50",
+        !isCapturing && "cursor-pointer",
         isCapturing ? "p-1" : window.innerWidth <= 640 ? "" : "p-1.5",
         getBgColor(),
         className,

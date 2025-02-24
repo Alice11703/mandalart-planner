@@ -59,8 +59,8 @@ const MandaratGrid: React.FC<MandaratGridProps> = ({
     if (!coreCell) return "";
 
     const color = selectedColors[Number(coreCell)];
-    // 코어 그룹의 중앙 셀인 경우 투명도 적용
-    return coreCenterCells.includes(index) ? `${color} !bg-opacity-60` : color;
+    // 코어 그룹의 중앙 셀인 경우 highlightColor-50 적용
+    return coreCenterCells.includes(index) ? `${highlightColor}-50` : color;
   };
 
   const groupedCells = Array.from({ length: 9 }, (_, groupIndex) =>
@@ -68,11 +68,11 @@ const MandaratGrid: React.FC<MandaratGridProps> = ({
   );
 
   return (
-    <div className="grid grid-cols-3 gap-0.5 bg-gray-200 p-0.5 w-full max-w-[900px] mx-auto">
+    <div className="grid grid-cols-3 gap-0.5 p-0.5 w-full max-w-[900px] mx-auto">
       {groupedCells.map((group, groupIndex) => (
         <div
           key={groupIndex}
-          className="grid grid-cols-3 gap-0.5 bg-gray-200 border border-gray-300 rounded"
+          className="grid grid-cols-3 gap-0.5 border border-gray-300 rounded"
         >
           {group.map((data, cellIndex) => {
             const realIndex = groupIndex * 9 + cellIndex;
@@ -81,28 +81,22 @@ const MandaratGrid: React.FC<MandaratGridProps> = ({
             return (
               <div
                 key={realIndex}
-                className={classNames(
-                  "w-full h-full",
-                  isCenter ? highlightColor : "bg-white",
-                )}
-                style={{
-                  fontFamily: "'Noto Sans KR', sans-serif",
-                  textRendering: "geometricPrecision",
-                }}
+                className={classNames("cell-content", "hover:bg-blue-50", {
+                  [highlightColor]: isCenter || groupIndex === 4,
+                  "bg-white": !isCenter && groupIndex !== 4,
+                })}
               >
-                <div className="cell-content">
-                  <MandaratCell
-                    index={realIndex}
-                    data={data}
-                    isCompleted={completedCells[realIndex]}
-                    onClick={(event) => onCellClick(realIndex, event)}
-                    highlightColor={highlightColor}
-                    isInCentralGroup={groupIndex === 4}
-                    isActive={selectedIndex === realIndex}
-                    isCapturing={isCapturing}
-                    isCenterCell={isCenterCell(groupIndex, cellIndex)}
-                  />
-                </div>
+                <MandaratCell
+                  index={realIndex}
+                  data={data}
+                  isCompleted={completedCells[realIndex]}
+                  onClick={(event) => onCellClick(realIndex, event)}
+                  highlightColor={highlightColor}
+                  isInCentralGroup={groupIndex === 4}
+                  isActive={selectedIndex === realIndex}
+                  isCapturing={isCapturing}
+                  isCenterCell={isCenterCell(groupIndex, cellIndex)}
+                />
               </div>
             );
           })}
