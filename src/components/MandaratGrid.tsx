@@ -10,6 +10,7 @@ interface MandaratGridProps {
   highlightColor: string;
   selectedIndex: number | null;
   isCapturing: boolean;
+  isSmallScreen?: boolean;
 }
 
 const MandaratGrid: React.FC<MandaratGridProps> = ({
@@ -19,6 +20,7 @@ const MandaratGrid: React.FC<MandaratGridProps> = ({
   highlightColor,
   selectedIndex,
   isCapturing,
+  isSmallScreen,
 }) => {
   const { board, updateCell } = useMandarat(Array(81).fill(""));
   const [selectedColors, setSelectedColors] = useState<{

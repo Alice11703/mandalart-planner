@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import MandaratGrid from "./components/MandaratGrid";
+// import MandaratCell from "./components/MandaratCell";
 import Toolbar from "./components/Toolbar";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -69,6 +70,7 @@ export default function App() {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [dialogPosition, setDialogPosition] = useState({ x: 0, y: 0 });
   const gridRef = useRef<HTMLDivElement>(null);
+  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 640);
 
   const TipString1 = "운동하기";
   const TipString2 = "매일 아침 30분 조깅하기";
@@ -86,6 +88,15 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem("mandaratHighlightColor", highlightColor);
   }, [highlightColor]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth <= 640);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const handleClearAll = () => {
     if (window.confirm("모든 셀의 데이터가 삭제됩니다. 계속하시겠습니까?")) {
@@ -208,6 +219,7 @@ export default function App() {
               highlightColor={highlightColor}
               selectedIndex={selectedIndex}
               isCapturing={isCapturing}
+              isSmallScreen={isSmallScreen}
             />
           </div>
           {selectedIndex !== null && (
